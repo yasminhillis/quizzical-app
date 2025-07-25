@@ -23,7 +23,7 @@ div#root {
     margin-top: 7px;
 }
 
-.description, .start-quiz {
+.description, .start-quiz, .option, .check-answers {
     font-family: "Inter", sans-serif;
 }
 
@@ -37,6 +37,7 @@ div#root {
     color: #F5F7FB;
     border-radius: 17px;
     margin-top: 29px;
+    cursor: pointer;
 }
 
 .shape {
@@ -47,16 +48,56 @@ div#root {
     z-index: -1;
 }
 
-.shape.top-right {
-    top: 0;
-    right: 0;
-    background-color: #FFFAD1;
-    transform: translate(50%,-50%);
+.question-and-options {
+    width: 400px;
+    height: 70px;
+    border-bottom: 1px solid #DBDEF0;
 }
 
-.shape.bottom-left {
-    bottom: 0;
-    left: 0;
-    background-color: #DEEBF8;
-    transform: translate(-50%, 50%);
+.question-text {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #293264;
 }
+
+.option, .check-answers {
+    cursor: pointer;
+}
+
+.option {
+    display: inline-flex;
+    width: 65px;
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 7px;
+    border: 1px solid #4D5B9E;
+    font-weight: 500;
+    font-size: 0.7rem;
+    color: #293264;
+    
+}
+
+.option:hover {
+    background-color: #D6DBF5;
+}
+
+#option-1,
+#option-2,
+#option-3, 
+#option-4 {
+    visibility: hidden;
+}
+
+.check-answers {
+    width: 120px;
+    height: 35px;
+    border-radius: 10px;
+    margin-top: 20px;
+    background-color: #4D5B9E;
+    border: none;
+    color: #F5F7FB;
+    font-weight: 600;
+    font-size: 0.64rem;
+}
+
