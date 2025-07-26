@@ -66,16 +66,17 @@ div#root {
 
 .option {
     display: inline-flex;
-    width: 65px;
+    width: fit-content;
     height: 20px;
     justify-content: center;
     align-items: center;
-    border-radius: 7px;
+    border-radius: 10px;
     border: 1px solid #4D5B9E;
     font-weight: 500;
     font-size: 0.7rem;
     color: #293264;
-    
+    padding: 2px 8px;
+    white-space: nowrap;
 }
 
 .option:hover {

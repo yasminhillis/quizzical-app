@@ -39,6 +39,15 @@ function App() {
     transform: 'translate(-60%, 73%)',
   }
 
+  const options = [
+        "American football",
+        "Combball",
+        "Handball",
+        "Touchdown"
+  ]
+
+  const questionComponents = [...Array(5)].map((_, i) => <Question key={i} options={options}/>)  
+
   return (
     <>
       <div style={topRightshapeStyles} className='shape'></div>
@@ -48,11 +57,8 @@ function App() {
       <div style={bottomLeftshapeStyles} className='shape'></div>
       {show && 
       <>
-        <Question />
-        <Question />
-        <Question />
-        <Question />
-        <Question />
+        {questionComponents}
+        
         <button className='check-answers'>Check answers</button>
       </>
       }
