@@ -1,17 +1,26 @@
-import { useState, useEffect } from 'react'
-
+import { useState, useEffect, useMemo } from 'react'
 import Question from './components/Question'
 import './App.css'
+import { insertAtRandomIndex } from '../utils'
 
 function App() {
   const [show, setShow] = useState(false)
+  const [selected, setSelected] = useState(false)
+  const [answers, setAnswers] = useState([])
+  const [showResults, setShowResults] = useState(false)
+  const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
+  const [questions, setQuestions] = useState([])
   function showQuiz() {
     setShow(true)
   }
 
-  useEffect(() => {console.log(show);
-  }, [show])
-
+  useEffect(() => {
+    fetch('https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple')
+      .then(res => res.json())
+      .then(data => {
+        setQuestions(data.results) 
+      })
+  }, [])
 
   const topRightshapeStyles = !show ? {
     top: 0,
@@ -39,14 +48,47 @@ function App() {
     transform: 'translate(-60%, 73%)',
   }
 
-  const options = [
-        "American football",
-        "Combball",
-        "Handball",
-        "Touchdown"
-  ]
+  function gradeAnswers(){
+    setShowResults(true)
+    answers.forEach(answer => {
+      if (answer.selectedAnswer === answer.correctAnswer) {
+        setCorrectAnswersCount(prev => prev + 1)
+      }
+    })
+  }
 
-  const questionComponents = [...Array(5)].map((_, i) => <Question key={i} options={options}/>)  
+  function handleClick(option, questionIndex, question, correctAnswer){
+      setSelected(true);
+      setAnswers(prev => {
+          const filteredQuestions = prev.filter(question => question.questionIndex !== questionIndex);
+          return [...filteredQuestions, {
+                  questionIndex: questionIndex,
+                  question: question, 
+                  selectedAnswer: option, 
+                  correctAnswer: correctAnswer, 
+              }]
+      })
+  }
+
+  function resetGame(){
+    setAnswers([])
+    setShowResults(false)
+  }
+    
+  function getSelectedAnswer(questionIndex){
+    const answer = answers.find(answer => answer.questionIndex === questionIndex);
+    return answer ? answer.selectedAnswer : null
+  }  
+  const questionComponents = questions.map((curr, index) => <Question key={index} 
+                                                              questionIndex={index}
+                                                              question={curr.question}
+                                                              correctAnswer={curr.correct_answer}
+                                                              incorrectAnswers={curr.incorrect_answers}
+                                                              insertAtRandomIndex={insertAtRandomIndex}
+                                                              handleClick={handleClick}
+                                                              selectedAnswer={getSelectedAnswer(index)}
+                                                              showResults={showResults}
+                                                      />)  
 
   return (
     <>
@@ -58,8 +100,12 @@ function App() {
       {show && 
       <>
         {questionComponents}
-        
-        <button className='check-answers'>Check answers</button>
+        {showResults ? 
+            <div className='play-again'>
+              <p>You scored {correctAnswersCount}/{answers.length} correct answers</p> 
+              <button className='btn play-again-btn' onClick={resetGame}>Play again</button>
+            </div>
+        : <button onClick={gradeAnswers} className='btn check-answers'>Check answers</button>}
       </>
       }
     </>
