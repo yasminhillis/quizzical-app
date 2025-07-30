@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import Question from './components/Question'
 import './App.css'
-import { insertAtRandomIndex } from '../utils'
+import { insertValAtRandomIndex } from '../utils.js'
 
 function App() {
   const [show, setShow] = useState(false)
@@ -84,7 +84,7 @@ function App() {
                                                               question={curr.question}
                                                               correctAnswer={curr.correct_answer}
                                                               incorrectAnswers={curr.incorrect_answers}
-                                                              insertAtRandomIndex={insertAtRandomIndex}
+                                                              insertAtRandomIndex={insertValAtRandomIndex}
                                                               handleClick={handleClick}
                                                               selectedAnswer={getSelectedAnswer(index)}
                                                               showResults={showResults}
